@@ -1,0 +1,22 @@
+// 单行超出省略
+@mixin ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 多行超出省略
+@mixin multi-lines-ellipsis($lines) {
+    // Webkit solution for multiline ellipsis
+    display: -webkit-box;
+    // Fallback for non-webkit browsers.
+    // Fallback does not render ellipsis.
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: initial;
+
+    /*! autoprefixer: off */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+}

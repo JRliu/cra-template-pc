@@ -1,0 +1,14 @@
+{
+    "ellipsis": {
+        "prefix": "@include ellipsis",
+        "body": "@include ellipsis;",
+        "description": "ellipsis",
+        "scope": "sass, scss, css"
+    },
+    "multi-lines-ellipsis": {
+        "prefix": "@include multi-lines-ellipsis",
+        "body": "@include multi-lines-ellipsis($lines);",
+        "description": "multi-lines-ellipsis",
+        "scope": "sass, scss, css"
+    }
+}

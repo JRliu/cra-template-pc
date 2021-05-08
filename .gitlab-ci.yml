@@ -1,0 +1,120 @@
+image: node:14-stretch # 一般只有node，根据具体项目node版本修改
+
+cache: &cache # 缓存node_modules
+    key: plain
+    paths:
+        - node_modules
+
+job_template: &build_job
+    tags:
+        - nodejs-2  # 跑任务的机器的tag
+
+    before_script:
+        - npm config set always-auth true
+
+stages: #声明阶段，阶段名必须声明了才能使用
+    - build_webpack
+    - build_image
+    - deploy
+
+# 定义job
+build_webpack_dev:
+    <<: *build_job
+    cache:
+        <<: *cache
+        key: plain-dev
+
+    stage: build_webpack # 所处阶段
+
+    script: # 具体的任务
+        - CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} yarn build
+
+    only:  # 触发job的条件
+        - dev
+
+    artifacts: # 定义job的产物，可供后续job使用，也可以在gitlab界面中下载
+        paths:
+            - build
+        expire_in: 20 mins
+        when: on_success
+
+build_webpack_sit:
+    <<: *build_job
+    cache:
+        <<: *cache
+        key: plain-sit
+    stage: build_webpack
+    script:
+        - CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} yarn build
+    only:
+        - /^sit-.*/
+    artifacts:
+        paths:
+            - build
+        expire_in: 20 mins
+        when: on_success
+
+
+build_webpack_prd:
+    <<: *build_job
+    cache:
+        <<: *cache
+        key: plain-prd
+    stage: build_webpack
+    script:
+        - CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} yarn build
+    only:
+        - /^prd-.*/
+    artifacts:
+        paths:
+            - build
+        expire_in: 20 mins
+        when: on_success
+
+build_image:
+    stage: build_image
+    tags:
+        - nodejs-2
+    script:
+        - /root/citools/publish.sh
+
+    only:
+        - dev
+        - /^sit-.*/
+
+build_image_prd:
+    stage: build_image
+    tags:
+        - nodejs-2
+    script:
+        - /root/citools/publish.sh prd
+
+    only:
+        - /^prd-.*/
+
+deploy_dev:
+    stage: deploy
+    tags:
+        - nodejs-2
+    script:
+        - /root/citools/deploy.sh ./release mmf_dev
+    only:
+        - dev
+
+deploy_sit:
+    stage: deploy
+    tags:
+        - nodejs-2
+    script:
+        - /root/citools/deploy.sh ./release mmf_sit
+    only:
+        - /^sit-.*/
+
+deploy_prd:
+    stage: deploy
+    tags:
+        - nodejs-2
+    script:
+        - /root/citools/deploy.sh ./release prd_env
+    only:
+        - /^prd-.*/

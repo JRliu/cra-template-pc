@@ -1,0 +1,20 @@
+{
+    "$color-primary": {
+        "prefix": "$color-primary",
+        "body": "\\$color-primary;",
+        "description": " green;",
+        "scope": "sass, scss, css"
+    },
+    "$color-danger": {
+        "prefix": "$color-danger",
+        "body": "\\$color-danger;",
+        "description": " #f2f2f2;",
+        "scope": "sass, scss, css"
+    },
+    "#f2f2f2$color-danger": {
+        "prefix": "#f2f2f2",
+        "body": "\\$color-danger;",
+        "description": " #f2f2f2;",
+        "scope": "sass, scss, css"
+    }
+}

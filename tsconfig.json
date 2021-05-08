@@ -18,9 +18,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "rootDir": "."
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "typings"
+  ],
+  "extends": "./tsconfig.extends.json"
 }
