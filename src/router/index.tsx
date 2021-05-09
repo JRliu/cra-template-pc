@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import Test from '@/components/Test';
 import _renderRoutes from './renderRoutes';
 import { RouteConfig } from 'react-router-config';
@@ -28,10 +28,6 @@ const TT = () => (
     </Suspense>
 );
 
-const TestComponent1 = LazyComponent(
-    import(/* webpackChunkName: "personal-center-1" */ '@/components/Bar')
-);
-
 const _routes: RouteConfig[] = [
     {
         path: '/test/:id',
@@ -58,7 +54,7 @@ const _routes: RouteConfig[] = [
                         path: '/mabi',
                         requireAuth: true,
                         permit: 'sing',
-                        fallback: <p>wdnmd!!!!!!!!!!!!!</p>,
+                        fallback: <p>w!!!</p>,
                         render: (props) => {
                             return (
                                 <div>

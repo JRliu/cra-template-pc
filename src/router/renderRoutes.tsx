@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Switch, Route, SwitchProps, Redirect } from 'react-router-dom';
 import { RouteConfig } from 'react-router-config';
 import { Observer } from 'mobx-react-lite';
